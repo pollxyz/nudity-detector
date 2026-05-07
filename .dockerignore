@@ -1,0 +1,16 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.git/
+.gitignore
+.idea/
+.vscode/
+*.log
+test_images/
+sample_images/
+.cache/
+huggingface_cache/
+README.md
+LICENSE
+CONTRIBUTING.md

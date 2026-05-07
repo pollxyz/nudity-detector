@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="240 70 200 270" role="img" aria-label="ModerationKit shield">
+  <defs>
+    <linearGradient id="mkShield" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B35"/>
+      <stop offset="50%" stop-color="#FF4500"/>
+      <stop offset="100%" stop-color="#CC2200"/>
+    </linearGradient>
+    <linearGradient id="mkShieldL" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#8B0000"/>
+      <stop offset="100%" stop-color="#FF4500" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="mkShieldR" x1="100%" y1="50%" x2="0%" y2="50%">
+      <stop offset="0%" stop-color="#FFD700"/>
+      <stop offset="100%" stop-color="#FF4500" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="mkCheck" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#00FF00"/>
+      <stop offset="100%" stop-color="#00CC00"/>
+    </linearGradient>
+    <filter id="mkGlow"><feGaussianBlur stdDeviation="2"/></filter>
+    <filter id="mkShadow"><feDropShadow dx="3" dy="4" stdDeviation="3" flood-opacity="0.4"/></filter>
+  </defs>
+  <path d="M 340 80 L 260 130 L 260 200 Q 260 280 340 330 Q 420 280 420 200 L 420 130 Z" fill="#1a1a2e" opacity="0.3" transform="translate(8,8)"/>
+  <path d="M 340 80 L 260 130 L 260 200 Q 260 280 340 330 Q 420 280 420 200 L 420 130 Z" fill="url(#mkShield)" filter="url(#mkShadow)"/>
+  <path d="M 260 130 L 260 200 Q 260 280 340 330 L 330 325 Q 250 275 250 200 L 250 125 Z" fill="url(#mkShieldL)" opacity="0.8"/>
+  <path d="M 420 130 L 420 200 Q 420 280 340 330 L 345 335 Q 430 285 430 200 L 430 125 Z" fill="url(#mkShieldR)" opacity="0.6"/>
+  <ellipse cx="340" cy="105" rx="55" ry="18" fill="#FFFFFF" opacity="0.25"/>
+  <circle cx="340" cy="210" r="65" fill="none" stroke="#FFD700" stroke-width="2" opacity="0.5"/>
+  <line x1="310" y1="210" x2="330" y2="230" stroke="#00FF00" stroke-width="8" stroke-linecap="round" opacity="0.3"/>
+  <line x1="330" y1="230" x2="375" y2="180" stroke="#00FF00" stroke-width="8" stroke-linecap="round" opacity="0.3"/>
+  <line x1="310" y1="210" x2="330" y2="230" stroke="url(#mkCheck)" stroke-width="6" stroke-linecap="round"/>
+  <line x1="330" y1="230" x2="375" y2="180" stroke="url(#mkCheck)" stroke-width="6" stroke-linecap="round"/>
+</svg>

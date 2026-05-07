@@ -1,0 +1,42 @@
+# Run both services with one command:
+#   docker compose up
+#
+# - api  : FastAPI moderation service on http://localhost:8000  (for PollXYZ)
+# - ui   : Gradio web UI on http://localhost:7860               (for humans)
+#
+# Tune any threshold via environment variables — see integrations/README.md
+# for the full list. Defaults below match production.
+
+services:
+  api:
+    build: .
+    image: moderationkit:latest
+    container_name: moderationkit-api
+    ports:
+      - "8000:8000"
+    environment:
+      MOD_INFERENCE_RESOLUTION: "1024"
+      MOD_DISPLAY_THRESHOLD: "0.15"
+      MOD_NSFW_BLOCK: "0.70"
+      MOD_NSFW_REVIEW: "0.30"
+      MOD_EXPLICIT_BLOCK: "0.50"
+      MOD_EXPLICIT_REVIEW: "0.20"
+      MOD_MALE_BOOST: "2.5"
+      MOD_MAX_IMAGE_BYTES: "15728640"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  ui:
+    image: moderationkit:latest
+    container_name: moderationkit-ui
+    depends_on:
+      - api
+    ports:
+      - "7860:7860"
+    command: ["python", "app.py", "--host", "0.0.0.0"]
+    restart: unless-stopped
