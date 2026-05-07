@@ -1,5 +1,5 @@
 nudenet>=3.4.2
-gradio>=5.0.0
+gradio>=5.49.0
 opencv-python>=4.9.0
 pillow>=10.0.0
 numpy>=1.24.0
