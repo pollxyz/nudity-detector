@@ -48,6 +48,9 @@ class VerdictPolicy:
     conflict_iou_threshold: float = 0.5  # boxes overlapping >= this conflict
     drop_male_when_female_face: bool = True
     drop_female_when_male_face: bool = True
+    # NudeNet's FACE_MALE/FACE_FEMALE classifier is noisy. Only trust a face-gender
+    # label above this score — below it the face is treated as gender-unknown.
+    face_gender_min_score: float = 0.75
 
 
 @dataclass
@@ -161,30 +164,49 @@ def _apply_face_gender_filter(
     detections: list[Detection],
     policy: VerdictPolicy,
 ) -> tuple[list[Detection], list[str]]:
-    """If a face is detected, suppress opposite-gender body-part detections."""
+    """If a confident face-gender label exists, suppress opposite-gender body parts.
+
+    NudeNet's face-gender classifier is unreliable below high confidence, so we
+    only act on FACE_MALE / FACE_FEMALE detections at or above
+    `face_gender_min_score`. We also only emit a pipeline note when something
+    was actually filtered out — otherwise the note is just noise to the user.
+    """
     notes: list[str] = []
-    has_male_face = any(d.class_name == "FACE_MALE" for d in detections)
-    has_female_face = any(d.class_name == "FACE_FEMALE" for d in detections)
+    min_score = policy.face_gender_min_score
+    has_male_face = any(
+        d.class_name == "FACE_MALE" and d.score >= min_score for d in detections
+    )
+    has_female_face = any(
+        d.class_name == "FACE_FEMALE" and d.score >= min_score for d in detections
+    )
 
     # Don't filter if BOTH genders are present (multi-person image).
     if has_male_face and has_female_face:
         return detections, notes
 
     suppress: set[str] = set()
+    label = ""
     if has_male_face and policy.drop_female_when_male_face:
         suppress.update({
             "FEMALE_BREAST_EXPOSED", "FEMALE_BREAST_COVERED",
             "FEMALE_GENITALIA_EXPOSED", "FEMALE_GENITALIA_COVERED",
         })
-        notes.append("Detected MALE face — suppressing female anatomy detections")
+        label = "MALE"
     elif has_female_face and policy.drop_male_when_female_face:
         suppress.update({"MALE_GENITALIA_EXPOSED", "MALE_BREAST_EXPOSED"})
-        notes.append("Detected FEMALE face — suppressing male anatomy detections")
+        label = "FEMALE"
 
     if not suppress:
         return detections, notes
 
     kept = [d for d in detections if d.class_name not in suppress]
+    suppressed_count = len(detections) - len(kept)
+    if suppressed_count > 0:
+        opposite = "female" if label == "MALE" else "male"
+        notes.append(
+            f"Detected {label} face — suppressed {suppressed_count} "
+            f"{opposite}-anatomy detection(s)"
+        )
     return kept, notes
 
 
