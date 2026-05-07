@@ -26,9 +26,10 @@ models/
 .cache/
 huggingface_cache/
 
-# IDE
+# IDE / editor / agent settings
 .vscode/
 .idea/
+.claude/
 *.swp
 *.swo
 
