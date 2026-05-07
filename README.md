@@ -20,10 +20,15 @@ short_description: Offline nudity detection — NudeNet + Falconsai stack
 
 <p align="center"><i>Local Nudity Detector — self-hosted, two-model offline stack</i></p>
 
+<p align="center">
+  <a href="https://huggingface.co/spaces/arrit/nudity-detector"><strong>🚀 Try the live demo on Hugging Face Spaces →</strong></a>
+</p>
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org)
 [![Docker](https://img.shields.io/badge/docker-ready-2496ED?logo=docker)](Dockerfile)
-[![Gradio](https://img.shields.io/badge/Gradio-6.x-FF7C00)](https://gradio.app)
+[![Gradio](https://img.shields.io/badge/Gradio-5.x-FF7C00)](https://gradio.app)
+[![HF Space](https://img.shields.io/badge/%F0%9F%A4%97%20HF%20Spaces-Live%20Demo-yellow)](https://huggingface.co/spaces/arrit/nudity-detector)
 [![Models](https://img.shields.io/badge/models-NudeNet%20%2B%20Falconsai-success)](README.md)
 [![Self-hosted](https://img.shields.io/badge/self--hosted-100%25%20offline-brightgreen)]()
 
