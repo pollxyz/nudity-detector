@@ -553,7 +553,7 @@ CUSTOM_CSS = """
 
 
 def build_ui() -> gr.Blocks:
-    with gr.Blocks(title="ModerationKit — Local Nudity Detector") as demo:
+    with gr.Blocks(title="ModerationKit — Local Nudity Detector", css=CUSTOM_CSS) as demo:
         # Header
         gr.HTML(f"""
 <div class="mk-header">
@@ -708,7 +708,6 @@ def main() -> None:
         server_port=args.port,
         share=args.share,
         inbrowser=True,
-        css=CUSTOM_CSS,
     )
     # Set the browser tab favicon to the shield icon when available
     if LOGO_ICON_PATH.is_file():
