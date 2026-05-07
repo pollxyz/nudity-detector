@@ -1,13 +1,13 @@
-# PollXYZ Integration
+# Integration Guide
 
-The moderation pipeline runs as a small HTTP service. Your PollXYZ app
+The moderation pipeline runs as a small HTTP service. Your application
 posts an image to `POST /check` and gets back a verdict.
 
 ## Architecture
 
 ```
 ┌──────────────┐   multipart upload   ┌────────────────────────┐
-│  PollXYZ     │  ─────────────────▶  │  Moderation API        │
+│  Your app    │  ─────────────────▶  │  Moderation API        │
 │  (any lang)  │                      │  (FastAPI on port 8000)│
 │              │  ◀─────────────────  │  ┌──────────────────┐  │
 └──────────────┘  JSON verdict        │  │ NudeNet (640m)   │  │
@@ -73,7 +73,7 @@ You'll get back JSON like:
 }
 ```
 
-## Step 3 — Wire it into PollXYZ
+## Step 3 — Wire it into your application
 
 Pick the file matching your stack:
 
@@ -89,7 +89,7 @@ Each example shows the full pattern: receive upload → call /check → branch o
 ## Endpoints
 
 ### `GET /health`
-Returns `{"status":"ok","ready":true,"inference_resolution":1024}` when the models are loaded. Use this in your PollXYZ deployment health check.
+Returns `{"status":"ok","ready":true,"inference_resolution":1024}` when the models are loaded. Use this in your application's deployment health check.
 
 ### `GET /policy`
 Returns the active thresholds. Useful for debugging "why was X blocked?".
@@ -98,15 +98,15 @@ Returns the active thresholds. Useful for debugging "why was X blocked?".
 Multipart upload, field name `file`. Returns the JSON shown above.
 
 ### `POST /check_url`
-JSON body `{"url": "https://..."}`. Use this if PollXYZ stores uploads in S3 — send the S3 URL directly instead of re-uploading bytes.
+JSON body `{"url": "https://..."}`. Use this if your app stores uploads in S3 — send the S3 URL directly instead of re-uploading bytes.
 
 ## Verdict semantics
 
 The service returns one of three verdicts:
 
-- **`ALLOW`** — image is safe. PollXYZ stores it as the profile picture.
-- **`REVIEW`** — borderline. PollXYZ stores it but marks for human moderation. (You decide whether to show it immediately or hold until reviewed.)
-- **`BLOCK`** — image is explicit. PollXYZ rejects with an error message.
+- **`ALLOW`** — image is safe. Your app stores it as the profile picture.
+- **`REVIEW`** — borderline. Your app stores it but marks for human moderation. (You decide whether to show it immediately or hold until reviewed.)
+- **`BLOCK`** — image is explicit. Your app rejects with an error message.
 
 ## Configuration via environment variables
 
@@ -133,7 +133,7 @@ MOD_NSFW_BLOCK=0.6 MOD_MALE_BOOST=3.0 ./run-server.sh
 ## Production deployment
 
 ### Same-machine (simplest)
-Run the moderation service alongside PollXYZ on the same box. PollXYZ calls `http://127.0.0.1:8000/check`. Use a process supervisor (systemd unit, pm2, Windows Service, supervisord) to keep it up.
+Run the moderation service alongside your app on the same box. Your app calls `http://127.0.0.1:8000/check`. Use a process supervisor (systemd unit, pm2, Windows Service, supervisord) to keep it up.
 
 ### Docker
 ```dockerfile
@@ -160,7 +160,7 @@ CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8000"]
 
 | Failure | Symptom | What to do |
 |---|---|---|
-| Service down | PollXYZ gets timeout/connection refused | **Fail-closed** (reject upload) — included in all examples. Don't fail-open. |
+| Service down | Your app gets timeout/connection refused | **Fail-closed** (reject upload) — included in all examples. Don't fail-open. |
 | Service slow | First request after restart takes ~10s | Warm up at deploy time: `curl /health` after startup |
 | Model wrong | False positive on innocent image | Add an "appeal" flow — let user request human review. Adjust `MOD_NSFW_BLOCK` upward. |
 | Model wrong | False negative on bad image | Lower `MOD_NSFW_BLOCK` and `MOD_MALE_BOOST` — catches more but rejects more. |

@@ -1,5 +1,5 @@
 /**
- * PollXYZ Next.js (App Router) integration example.
+ * Next.js (App Router) integration example.
  *
  * File: app/api/profile-picture/route.ts
  *

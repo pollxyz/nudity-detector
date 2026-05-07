@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Launches the moderation HTTP API for PollXYZ to call.
+# Launches the moderation HTTP API for your app to call.
 set -euo pipefail
 cd "$(dirname "$0")"
 

@@ -1,5 +1,5 @@
 """
-PollXYZ Django integration example. Drop this in your views.py.
+Django integration example. Drop this in your views.py.
 
 Requires:  pip install requests
 """

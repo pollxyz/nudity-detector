@@ -1,5 +1,5 @@
 @echo off
-REM Launches the moderation HTTP API for PollXYZ to call.
+REM Launches the moderation HTTP API for your app to call.
 REM Listens on 0.0.0.0:8000 by default. Tweak port via --port.
 
 setlocal

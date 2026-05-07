@@ -1,5 +1,5 @@
 /**
- * PollXYZ Node.js / Express integration example.
+ * Node.js / Express integration example.
  *
  * Drop this in your upload handler. Posts the uploaded image bytes to the
  * moderation service and acts on the verdict.

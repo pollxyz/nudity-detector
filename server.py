@@ -1,5 +1,5 @@
 """
-HTTP API for the moderation pipeline. PollXYZ posts an image, gets back JSON.
+HTTP API for the moderation pipeline. Your app posts an image, gets back JSON.
 
 Endpoints:
   GET  /health         -> {"status":"ok","ready":true}
@@ -95,12 +95,12 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="PollXYZ Moderation Service",
+    title="ModerationKit API",
     version="1.0",
     lifespan=lifespan,
 )
 
-# Adjust origins to your PollXYZ domain in production for browser-based callers.
+# Adjust origins to your app's domain in production for browser-based callers.
 # Default is permissive because most callers are server-side.
 app.add_middleware(
     CORSMiddleware,
@@ -261,7 +261,7 @@ async def check(file: UploadFile = File(...)) -> CheckResponse:
 @app.post("/check_url", response_model=CheckResponse)
 async def check_url(body: CheckUrlBody) -> CheckResponse:
     """
-    Fetch image from a URL, then check. Useful when PollXYZ stores uploads in S3
+    Fetch image from a URL, then check. Useful when your app stores uploads in S3
     and wants to send the URL rather than re-upload the bytes.
     """
     try:

@@ -1,6 +1,6 @@
 <?php
 /**
- * PollXYZ Laravel/PHP integration example.
+ * Laravel/PHP integration example.
  *
  * Drop this in app/Http/Controllers/ProfilePictureController.php
  *

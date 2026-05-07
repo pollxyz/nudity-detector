@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Quick smoke test of the moderation API. Use this from any shell to verify
-# the service is up before integrating with PollXYZ.
+# the service is up before integrating with your application.
 
 set -euo pipefail
 

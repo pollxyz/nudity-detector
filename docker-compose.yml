@@ -1,7 +1,7 @@
 # Run both services with one command:
 #   docker compose up
 #
-# - api  : FastAPI moderation service on http://localhost:8000  (for PollXYZ)
+# - api  : FastAPI moderation service on http://localhost:8000  (for your app)
 # - ui   : Gradio web UI on http://localhost:7860               (for humans)
 #
 # Tune any threshold via environment variables — see integrations/README.md

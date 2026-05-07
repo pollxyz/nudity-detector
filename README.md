@@ -182,7 +182,7 @@ From any other language, hit `https://YOUR_USERNAME-nudity-detector.hf.space/api
 
 ### Option 3 — Self-hosted VPS (production)
 
-For PollXYZ at scale, deploy `server.py` to a $5/mo VPS:
+For production at scale, deploy `server.py` to a $5/mo VPS:
 - DigitalOcean, Hetzner, Linode all work
 - Use `systemd` to keep `uvicorn server:app --host 0.0.0.0 --port 8000` running
 - Put nginx in front for HTTPS
