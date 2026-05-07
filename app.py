@@ -649,7 +649,7 @@ def build_ui() -> gr.Blocks:
   <p>
     <b>ModerationKit</b> · 100% offline · No images leave your machine
     &nbsp;·&nbsp;
-    <a href="https://github.com" target="_blank">GitHub</a>
+    <a href="https://github.com/pollxyz/nudity-detector" target="_blank">GitHub</a>
     &nbsp;·&nbsp;
     <a href="/docs" target="_blank">API docs (when running server.py)</a>
   </p>
