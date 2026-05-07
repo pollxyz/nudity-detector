@@ -687,6 +687,17 @@ def main() -> None:
     parser.add_argument("--host", default="127.0.0.1")
     args = parser.parse_args()
 
+    # Ensure the larger NudeNet model is present. install.bat does this on
+    # local boxes, but Hugging Face Spaces instances start from a clean slate,
+    # so we trigger the download here on first cold start.
+    print("Checking detection model...")
+    try:
+        from download_models import download as _download_detector_model
+        _download_detector_model()
+    except Exception as exc:
+        print(f"WARNING: detector model auto-download failed ({exc}). "
+              "Falling back to bundled smaller model.")
+
     print("Pre-loading models (one-time)...")
     _get_classifier()
     print("Models ready.")
